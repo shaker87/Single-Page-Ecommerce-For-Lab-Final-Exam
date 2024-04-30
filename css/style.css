@@ -392,6 +392,9 @@ a:focus {
   text-align: right;
   width: 20px;
 }
+.hidden{
+  display: none;
+}
 
 .remove__btn a i {
   color: #ccc;
@@ -402,7 +405,7 @@ a:focus {
   border-top: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
-  padding: 22px 0;
+  padding: 8px 0 5px 0;
 }
 
 .shoping__total .subtotal {
