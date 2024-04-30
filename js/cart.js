@@ -4,9 +4,9 @@ if (!productsInCart) {
 
 }
 
-function showAlert(message) {
+function showAlert(title, message) {
     Swal.fire({
-      title: 'Successfully add to cart!',
+      title: title,
       text: message,
       icon: 'success', // You can use 'success', 'error', 'warning', 'info', or 'question'
       confirmButtonText: 'Close'
@@ -19,9 +19,11 @@ const products = document.querySelectorAll('.product');
 const parentElement = document.querySelector('#shp__cart__wrap');
 const totalPrice = document.querySelector('#total__price');
 const showTotal = document.querySelector('.total');
+const showTotalCost = document.querySelector('#total__cost');
 const shoppingCartMenu = document.getElementById("shopping__cart__menu")
 const shoppingCartSidebar = document.getElementById("shopping__cart")
 const closeShoppingCart = document.getElementById("offsetmenu__close__btn")
+const checkOutButton = document.querySelector('.shp__checkout')
 
 shoppingCartMenu.addEventListener('click', function(){
     shoppingCartSidebar.classList.add("open__shopping__cart")
@@ -49,7 +51,7 @@ const countTheSumPrice = function () { // 4
 
 function updateProductsInCart(product) { // 2
     console.log('product :>> ', product);
-    showAlert(product['name'])
+    showAlert('Successfully add to cart!',product['name'])
     
     for (let i = 0; i < productsInCart.length; i++) {
         if (productsInCart[i].id == product.id) {
@@ -91,7 +93,9 @@ const updateShoppingCartHTML = function () {
                 </div>`
         });
         parentElement.innerHTML = result.join('');
+        document.querySelector('.shp__checkout').classList.remove('hidden');
         totalPrice.innerHTML = '$' + countTheSumPrice();
+        showTotalCost.innerHTML = '$' + countTheSumPrice();
         showTotal.innerHTML = cartProductCount();
      
 
@@ -101,7 +105,10 @@ const updateShoppingCartHTML = function () {
         <h4 class="empty" style="margin-bottom:30px">Your shopping cart is empty</h4>
         </div>`;
 
+        document.querySelector('.shp__checkout').classList.add('hidden');
+
         totalPrice.innerHTML = '$0.00';
+        showTotalCost.innerHTML = '$0.00';
         showTotal.innerHTML = cartProductCount();
         
     }
@@ -178,6 +185,15 @@ parentElement.addEventListener('click', (e) => {
         updateShoppingCartHTML();
     }
 });
+
+checkOutButton.addEventListener('click', function(){
+    shoppingCartSidebar.classList.remove("open__shopping__cart");
+    productsInCart.splice(0,productsInCart.length)
+    localStorage.setItem('shoppingCart', JSON.stringify(productsInCart));
+    updateShoppingCartHTML()
+    showAlert('Successfully checkout and place order', 'Order has been placed')
+
+})
 
 
 
